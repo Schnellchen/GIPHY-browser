@@ -10,40 +10,62 @@
       <CommonButton @click-handle="search" class="header__button" />
     </div>
     <div class="body">
-      <div>Giphochki</div>
+      <div v-if="loading" class="loading-spinner">
+        <Spinner size="100" line-fg-color="aquamarine" />
+      </div>
+      <div v-else class="content">
+        <img
+          class="image"
+          v-for="(item, index) in data"
+          :src="item.images.original.url"
+          :key="index"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import CommonInput from "../Common/CommonInput/CommonInput";
-import CommonButton from "../Common/CommonButton/CommonButton";
+import CommonInput from "../Common/CommonInput/CommonInput.vue";
+import CommonButton from "../Common/CommonButton/CommonButton.vue";
+import Spinner from "vue-simple-spinner";
 import Vue from "vue";
+import { getSearched } from "@/service/giphy.service.js";
 
 export default Vue.extend({
   name: "Browser",
   components: {
     CommonButton,
-    CommonInput
+    CommonInput,
+    Spinner
   },
   data() {
     const searchText = "";
-    return { searchText };
+    const data = [];
+    const loading = false;
+    return { searchText, data, loading };
   },
   methods: {
     setSearchText(e) {
       this.searchText = e;
     },
     search() {
-      console.log(this.searchText);
+      this.loading = true;
+      getSearched(this.searchText).then(data => {
+        this.data = data;
+        this.loading = false;
+      });
     }
+  },
+  mounted() {
+    //getTrending().then(data => (this.data = data));
   }
 });
 </script>
 
 <style scoped>
 .browser {
-  min-width: 600px;
+  min-width: 500px;
   max-width: 1000px;
   display: grid;
   grid-gap: 30px;
@@ -73,5 +95,23 @@ export default Vue.extend({
   background-color: #c5edd6;
   min-height: 500px;
   border-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+.image {
+  height: 150px;
+  width: 150px;
+  background-color: #42b983;
 }
 </style>
