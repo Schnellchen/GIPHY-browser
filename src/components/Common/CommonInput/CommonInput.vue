@@ -2,6 +2,7 @@
   <input
     :value="value"
     @input="$emit('input-change', $event.target.value)"
+    @keydown="$emit('input-keydown', $event.key)"
     class="common-input"
     type="text"
     placeholder="Search"

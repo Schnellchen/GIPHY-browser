@@ -14,12 +14,11 @@
         <Spinner size="100" line-fg-color="aquamarine" />
       </div>
       <div v-else class="content">
-        <img
-          class="image"
-          v-for="(item, index) in data"
-          :src="item.images.original.url"
-          :key="index"
-        />
+        <div v-for="(item, index) in data" :key="index">
+          <a :href="item.url" target="_blank">
+            <ImageComponent :src="item.images.original.url" />
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -28,21 +27,23 @@
 <script>
 import CommonInput from "../Common/CommonInput/CommonInput.vue";
 import CommonButton from "../Common/CommonButton/CommonButton.vue";
+import ImageComponent from "../Common/ImageComponent/ImageComponent.vue";
 import Spinner from "vue-simple-spinner";
 import Vue from "vue";
-import { getSearched } from "@/service/giphy.service.js";
+import { getTrending, getSearched } from "@/service/giphy.service.js";
 
 export default Vue.extend({
   name: "Browser",
   components: {
     CommonButton,
     CommonInput,
-    Spinner
+    Spinner,
+    ImageComponent
   },
   data() {
     const searchText = "";
     const data = [];
-    const loading = false;
+    const loading = true;
     return { searchText, data, loading };
   },
   methods: {
@@ -58,15 +59,18 @@ export default Vue.extend({
     }
   },
   mounted() {
-    //getTrending().then(data => (this.data = data));
+    getTrending().then(data => {
+      this.data = data;
+      this.loading = false;
+    });
   }
 });
 </script>
 
 <style scoped>
 .browser {
-  min-width: 500px;
-  max-width: 1000px;
+  min-width: 400px;
+  max-width: 600px;
   display: grid;
   grid-gap: 30px;
 }
@@ -105,13 +109,9 @@ export default Vue.extend({
   height: 500px;
 }
 .content {
+  margin: 20px 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
-}
-.image {
-  height: 150px;
-  width: 150px;
-  background-color: #42b983;
 }
 </style>
