@@ -1,18 +1,16 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <Browser />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
-
+import Browser from "./components/Containers/Browser.vue";
 export default Vue.extend({
   name: "App",
   components: {
-    HelloWorld
+    Browser
   }
 });
 </script>
@@ -25,5 +23,8 @@ export default Vue.extend({
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  font-size: 14pt;
+  display: flex;
+  justify-content: center;
 }
 </style>
