@@ -1,7 +1,7 @@
 <template>
   <input
     :value="value"
-    @input="$emit('input-change', $event.target.value)"
+    @input="$emit('input-change', $event.target.value.trim())"
     @keydown="$emit('input-keydown', $event.key)"
     class="common-input"
     type="text"

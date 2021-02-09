@@ -40,6 +40,7 @@ export default {
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
 }
 .image {
   height: 100%;

@@ -1,5 +1,12 @@
 <template>
-  <div @click="$emit('click-handle')" class="common-button">
+  <div
+    @click="!disabled && $emit('click-handle')"
+    :class="
+      disabled
+        ? 'common-button common-button_disabled'
+        : 'common-button common-button_active'
+    "
+  >
     <p>Button</p>
   </div>
 </template>
@@ -8,7 +15,10 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "CommonButton"
+  name: "CommonButton",
+  props: {
+    disabled: Boolean
+  }
 });
 </script>
 
@@ -19,14 +29,20 @@ export default Vue.extend({
   height: 50px;
   width: 90%;
   border-radius: 10px;
-  background-color: aquamarine;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   margin: 0;
 }
-.common-button:hover {
+.common-button_active {
+  background-color: aquamarine;
+  cursor: pointer;
+}
+.common-button_active:hover {
   background-color: #42b983;
+}
+.common-button_disabled {
+  cursor: default;
+  background-color: rgba(0, 0, 0, 0.15);
 }
 </style>

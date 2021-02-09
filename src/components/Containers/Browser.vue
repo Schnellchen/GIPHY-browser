@@ -6,12 +6,20 @@
         @input-change="setSearchText"
         :value="searchText"
         class="header__input"
+        @input-keydown="searchByEnter"
       />
-      <CommonButton @click-handle="search" class="header__button" />
+      <CommonButton
+        @click-handle="searchByButton"
+        class="header__button"
+        :disabled="searchText.length === 0"
+      />
     </div>
     <div class="body">
       <div v-if="loading" class="loading-spinner">
         <Spinner size="100" line-fg-color="aquamarine" />
+      </div>
+      <div class="error" v-else-if="data.length === 0">
+        <div class="error__message">{{ error }}</div>
       </div>
       <div v-else class="content">
         <div v-for="(item, index) in data" :key="index">
@@ -41,41 +49,64 @@ export default Vue.extend({
     ImageComponent
   },
   data() {
-    const searchText = "";
     const data = [];
+    const searchText = "";
     const loading = true;
-    return { searchText, data, loading };
+    const error = "";
+    return { searchText, data, loading, error };
   },
   methods: {
     setSearchText(e) {
       this.searchText = e;
     },
-    search() {
+    searchByEnter(e) {
+      if (e === "Enter") {
+        this.searchByButton();
+      }
+    },
+    searchByButton() {
       this.loading = true;
-      getSearched(this.searchText).then(data => {
-        this.data = data;
-        this.loading = false;
-      });
+      getSearched(this.searchText)
+        .then(data => {
+          this.data = data;
+          this.loading = false;
+        })
+        .then(() => {
+          if (this.data.length === 0) {
+            this.loading = false;
+            this.error = "Your request has no result :(";
+          }
+        })
+        .catch(() => {
+          this.loading = false;
+          this.data = [];
+          this.error = "Can't connect to GIPHY";
+        });
     }
   },
   mounted() {
-    getTrending().then(data => {
-      this.data = data;
-      this.loading = false;
-    });
+    getTrending()
+      .then(data => {
+        this.data = data;
+        this.loading = false;
+      })
+      .catch(() => {
+        this.loading = false;
+        this.error = "Can't connect to GIPHY";
+      });
   }
 });
 </script>
 
 <style scoped>
 .browser {
-  min-width: 400px;
+  min-width: 600px;
   max-width: 600px;
   display: grid;
   grid-gap: 30px;
 }
 .browser__title {
-  font-size: 100px;
+  font-size: 70px;
   font-weight: 70;
   text-align: center;
   color: rgba(0, 0, 0, 0.15);
@@ -88,6 +119,7 @@ export default Vue.extend({
   align-items: center;
   height: 100px;
   border-radius: 10px;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
 }
 .header__input {
   width: 65%;
@@ -101,12 +133,27 @@ export default Vue.extend({
   border-radius: 10px;
   display: flex;
   justify-content: center;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
 }
 .loading-spinner {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 500px;
+}
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  font-weight: 70;
+  font-size: 40px;
+}
+.error__message {
+  width: 70%;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+  background-color: #c5edc1;
 }
 .content {
   margin: 20px 0;
