@@ -24,7 +24,7 @@
       <div v-else class="content">
         <div v-for="(item, index) in data" :key="index">
           <a :href="item.url" target="_blank">
-            <ImageComponent :src="item.images.original.url" />
+            <ImageComponent :src="item.images.original.url" :alt="item.title" />
           </a>
         </div>
       </div>

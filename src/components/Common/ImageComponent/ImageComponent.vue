@@ -4,7 +4,7 @@
       :class="loaded ? 'image' : 'image-not-loaded'"
       @load="onLoad"
       :src="src"
-      alt="gif"
+      :alt="alt"
     />
     <LoadingSpinner v-if="!loaded" />
   </div>
@@ -22,7 +22,8 @@ export default {
     return { loaded };
   },
   props: {
-    src: String
+    src: String,
+    alt: String
   },
   methods: {
     onLoad() {
