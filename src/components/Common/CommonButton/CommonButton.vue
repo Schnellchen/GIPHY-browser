@@ -7,7 +7,7 @@
         : 'common-button common-button_active'
     "
   >
-    <p>Button</p>
+    <p>{{ title }}</p>
   </div>
 </template>
 
@@ -17,6 +17,7 @@ import Vue from "vue";
 export default Vue.extend({
   name: "CommonButton",
   props: {
+    title: String,
     disabled: Boolean
   }
 });

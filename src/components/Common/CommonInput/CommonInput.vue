@@ -5,7 +5,7 @@
     @keydown="$emit('input-keydown', $event.key)"
     class="common-input"
     type="text"
-    placeholder="Search"
+    :placeholder="placeholder"
   />
 </template>
 
@@ -15,7 +15,8 @@ import Vue from "vue";
 export default Vue.extend({
   name: "CommonInput",
   props: {
-    value: String
+    value: String,
+    placeholder: String
   }
 });
 </script>
