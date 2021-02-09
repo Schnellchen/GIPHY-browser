@@ -16,7 +16,7 @@
     </div>
     <div class="body">
       <div v-if="loading" class="loading-spinner">
-        <Spinner size="100" line-fg-color="aquamarine" />
+        <LoadingSpinner />
       </div>
       <div class="error" v-else-if="data.length === 0">
         <div class="error__message">{{ error }}</div>
@@ -32,34 +32,34 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import CommonInput from "../Common/CommonInput/CommonInput.vue";
 import CommonButton from "../Common/CommonButton/CommonButton.vue";
 import ImageComponent from "../Common/ImageComponent/ImageComponent.vue";
-import Spinner from "vue-simple-spinner";
+import LoadingSpinner from "../Common/LoadingSpinner/LoadingSpinner.vue";
 import Vue from "vue";
-import { getTrending, getSearched } from "@/service/giphy.service.js";
+import { getTrending, getSearched } from "@/service/giphy.service.ts";
 
 export default Vue.extend({
   name: "Browser",
   components: {
     CommonButton,
     CommonInput,
-    Spinner,
-    ImageComponent
+    ImageComponent,
+    LoadingSpinner
   },
   data() {
-    const data = [];
+    const data: Array<object> = [{}];
     const searchText = "";
     const loading = true;
     const error = "";
     return { searchText, data, loading, error };
   },
   methods: {
-    setSearchText(e) {
+    setSearchText(e: string) {
       this.searchText = e;
     },
-    searchByEnter(e) {
+    searchByEnter(e: string) {
       if (e === "Enter") {
         this.searchByButton();
       }
@@ -67,7 +67,7 @@ export default Vue.extend({
     searchByButton() {
       this.loading = true;
       getSearched(this.searchText)
-        .then(data => {
+        .then((data: Array<object>) => {
           this.data = data;
           this.loading = false;
         })
@@ -86,7 +86,7 @@ export default Vue.extend({
   },
   mounted() {
     getTrending()
-      .then(data => {
+      .then((data: Array<object>) => {
         this.data = data;
         this.loading = false;
       })

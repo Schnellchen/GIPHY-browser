@@ -15,7 +15,7 @@ import Vue from "vue";
 export default Vue.extend({
   name: "CommonInput",
   props: {
-    value: String as () => string
+    value: String
   }
 });
 </script>

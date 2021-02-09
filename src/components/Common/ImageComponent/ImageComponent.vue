@@ -2,19 +2,20 @@
   <div class="root">
     <img
       :class="loaded ? 'image' : 'image-not-loaded'"
-      @load="load"
+      @load="onLoad"
       :src="src"
+      alt="gif"
     />
-    <Spinner v-if="!loaded" />
+    <LoadingSpinner v-if="!loaded" />
   </div>
 </template>
 
 <script>
-import Spinner from "vue-simple-spinner";
+import LoadingSpinner from "../../Common/LoadingSpinner/LoadingSpinner.vue";
 export default {
   name: "ImageComponent",
   components: {
-    Spinner
+    LoadingSpinner
   },
   data() {
     const loaded = false;
@@ -24,7 +25,7 @@ export default {
     src: String
   },
   methods: {
-    load() {
+    onLoad() {
       this.loaded = true;
     }
   }
