@@ -201,10 +201,10 @@ export default Vue.extend({
   background-color: #c5edc1;
 }
 .content {
-  margin: 20px 0;
   height: 100%;
   display: grid;
   grid-template-rows: 4fr 1fr;
+  align-items: center;
 }
 .images {
   display: grid;
@@ -230,5 +230,28 @@ export default Vue.extend({
 }
 .content__button {
   justify-self: center;
+}
+@media screen and (max-width: 450px) {
+  .browser {
+    min-width: 320px;
+  }
+  .images {
+    grid-template-columns: 1fr 1fr;
+  }
+  .browser__title {
+    font-size: 35px;
+  }
+}
+@media screen and (max-width: 320px) {
+  .browser {
+    min-width: 250px;
+  }
+  .images {
+    grid-template-columns: none;
+    justify-content: center;
+  }
+  .browser__title {
+    font-size: 35px;
+  }
 }
 </style>
