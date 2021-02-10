@@ -2,7 +2,7 @@
   <input
     :value="value"
     @input="$emit('input-change', $event.target.value.trim())"
-    @keydown="$emit('input-keydown', $event.key)"
+    @keydown.enter="$emit('input-keydown-enter')"
     class="common-input"
     type="text"
     :placeholder="placeholder"

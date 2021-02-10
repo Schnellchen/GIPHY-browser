@@ -7,10 +7,10 @@
         :value="searchText"
         placeholder="Search"
         class="header__input"
-        @input-keydown="searchByEnter"
+        @input-keydown-enter="search"
       />
       <CommonButton
-        @click-handle="searchByButton"
+        @click-handle="search"
         class="header__button"
         :disabled="searchText.length === 0"
         title="Go!"
@@ -29,12 +29,11 @@
             v-for="(item, index) in data.slice(position, position + 6)"
             :key="index + position"
           >
-            <a :href="item.url" target="_blank">
-              <ImageComponent
-                :src="item.images.original.url"
-                :alt="item.title"
-              />
-            </a>
+            <ImageComponent
+              :src="item.images.original.url"
+              :alt="item.title"
+              :url="item.url"
+            />
           </div>
         </div>
         <div class="content__controls">
@@ -60,11 +59,11 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import CommonInput from "../Common/CommonInput/CommonInput.vue";
 import CommonButton from "../Common/CommonButton/CommonButton.vue";
 import ImageComponent from "../Common/ImageComponent/ImageComponent.vue";
 import LoadingSpinner from "../Common/LoadingSpinner/LoadingSpinner.vue";
-import Vue from "vue";
 import { getTrending, getSearched } from "@/service/giphy.service.ts";
 
 export default Vue.extend({
@@ -87,12 +86,7 @@ export default Vue.extend({
     setSearchText(e: string) {
       this.searchText = e;
     },
-    searchByEnter(e: string) {
-      if (e === "Enter") {
-        this.searchByButton();
-      }
-    },
-    searchByButton() {
+    search() {
       this.loading = true;
       getSearched(this.searchText)
         .then((data: Array<object>) => {

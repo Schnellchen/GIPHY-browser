@@ -7,7 +7,7 @@
         : 'common-button common-button_active'
     "
   >
-    <p>{{ title }}</p>
+    {{ title }}
   </div>
 </template>
 

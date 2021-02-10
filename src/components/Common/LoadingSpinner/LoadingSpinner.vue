@@ -1,11 +1,6 @@
 <template>
   <div class="loader" />
 </template>
-<script>
-export default {
-  name: "LoadingSpinner"
-};
-</script>
 
 <style scoped>
 .loader,

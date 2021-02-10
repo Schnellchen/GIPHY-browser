@@ -1,11 +1,8 @@
 <template>
   <div class="root">
-    <img
-      :class="loaded ? 'image' : 'image-not-loaded'"
-      @load="onLoad"
-      :src="src"
-      :alt="alt"
-    />
+    <a :href="url" target="_blank" :class="!loaded && 'not-loaded'">
+      <img class="image" @load="onLoad" :src="src" :alt="alt" />
+    </a>
     <LoadingSpinner v-if="!loaded" />
   </div>
 </template>
@@ -17,13 +14,14 @@ export default {
   components: {
     LoadingSpinner
   },
+  props: {
+    src: String,
+    alt: String,
+    url: String
+  },
   data() {
     const loaded = false;
     return { loaded };
-  },
-  props: {
-    src: String,
-    alt: String
   },
   methods: {
     onLoad() {
@@ -44,12 +42,16 @@ export default {
   border-radius: 10px;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
 }
+.root a {
+  height: 100%;
+  width: 100%;
+}
 .image {
   height: 100%;
   width: 100%;
-  border-radius: inherit;
+  border-radius: 10px;
 }
-.image-not-loaded {
+.not-loaded {
   display: none;
 }
 </style>
